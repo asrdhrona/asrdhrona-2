@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions Form</title>
+
+    <!-- Styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-top: 6px solid #FFA500;
+            margin: 50px auto;
+        }
+        h2 {
+            text-align: center;
+            color: #1C76C2;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #1C76C2;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #FFA500;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            background: #fb8500;
+            color: white;
+            padding: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #e69500;
+        }
+        #success-message {
+            display: none;
+            text-align: center;
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Admissions Form Section -->
+    <div class="container">
+        <h2>Admissions Form</h2>
+        <form id="admission-form">
+            <!-- Student Name -->
+            <label>Student Name</label>
+            <input type="text" id="student-name" placeholder="Enter student’s full name" required>
+
+            <!-- Parent Name -->
+            <label>Parent/Guardian Name</label>
+            <input type="text" id="parent-name" placeholder="Enter parent’s full name" required>
+
+            <!-- Contact Number -->
+            <label>Contact Number</label>
+            <input type="tel" id="contact-number" placeholder="Enter contact number" required>
+
+            <!-- Email -->
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="Enter email" required>
+
+            <!-- Grade Applying For -->
+            <label>Grade Applying For</label>
+            <select id="grade" required>
+                <option value="" disabled selected>Select Grade</option>
+                <option value="Nursery">Nursery</option>
+                <option value="LKG">LKG</option>
+                <option value="UKG">UKG</option>
+                <option value="Class 1">Class 1</option>
+                <option value="Class 2">Class 2</option>
+                <option value="Class 3">Class 3</option>
+                <option value="Class 4">Class 4</option>
+                <option value="Class 5">Class 5</option>
+                <option value="Class 6">Class 6</option>
+                <option value="Class 7">Class 7</option>
+                <option value="Class 8">Class 8</option>
+                
+            </select>
+
+            <!-- Message -->
+            <label>Additional Message</label>
+            <textarea id="message" rows="4" placeholder="Write any additional details..."></textarea>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit Application</button>
+        </form>
+
+        <!-- Success Message -->
+        <div id="success-message">✅ Your application has been submitted successfully!</div>
+    </div>
+
+    <!-- JavaScript for Form Validation -->
+    <script>
+        document.getElementById("admission-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevents form from refreshing the page
+
+            let name = document.getElementById("student-name").value.trim();
+            let parent = document.getElementById("parent-name").value.trim();
+            let contact = document.getElementById("contact-number").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let grade = document.getElementById("grade").value;
+            
+            if (!name || !parent || !contact || !email || !grade) {
+                alert("⚠ Please fill all required fields!");
+                return;
+            }
+
+            // Show success message
+            document.getElementById("success-message").style.display = "block";
+
+            // Clear form after submission
+            setTimeout(() => {
+                document.getElementById("admission-form").reset();
+                document.getElementById("success-message").style.display = "none";
+            }, 3000);
+        });
+    </script>
+
+</body>
+</html>
+
+</body>
+</html>
