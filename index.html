@@ -38,6 +38,119 @@ DEFAULT: '8px',
 </script>
 <style>
 
+/* Ensure the carousel container is always full height */
+#carousel {
+    display: flex;
+    width: 100%;
+    height: 100vh; /* Full height on desktop */
+    max-height: 800px; /* Prevent extreme stretching */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Individual slide setup */
+.carousel-slide {
+    width: 100%;
+    height: 100%;
+    flex: 0 0 100%;
+    position: absolute;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Ensure images fill the screen correctly */
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Navigation Arrows */
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.carousel-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#prevBtn {
+    left: 15px;
+}
+
+#nextBtn {
+    right: 15px;
+}
+
+/* Dots navigation */
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.carousel-dot.active {
+    background-color: white;
+    transform: scale(1.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    #carousel {
+        height: 80vh; /* Reduce height for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    #carousel {
+        height: auto;
+        min-height: 400px; /* Ensure no extra space */
+    }
+
+    .carousel-slide {
+        height: 400px;
+    }
+
+    .carousel-slide img {
+        object-fit: contain;
+    }
+
+    .carousel-arrow {
+        width: 30px;
+        height: 30px;
+    }
+
+    .carousel-dot {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+
+
+
 :where([class^="ri-"])::before { content: "\f3c2"; }
 body {
 font-family: 'Open Sans', sans-serif;
@@ -71,7 +184,7 @@ transform: translateY(-5px);
 .testimonial-container {
 transition: opacity 0.5s ease;
 }
-.gallery-item {
+/* .gallery-item {
 overflow: hidden;
 }
 .gallery-item img {
@@ -95,17 +208,16 @@ transform: translateX(0);
 transition: transform 0.5s ease-in-out;
 }
 #carousel > div {
-flex-shrink: 0;
+flex-shrink: 0; */
 
 
-}
+
 </style>
 </head>
 <body class="bg-white">
-
   <header class="w-full bg-[#1C76C2] text-white shadow-md mb-0 pb-0">
-    <!-- Top Contact Bar (Stays on Top in Web, Moves Below Logo in Mobile) -->
-    <div class="bg-opacity-90 bg-[#1C76C2] mb-0 pb-0 hidden md:block">
+    <!-- Desktop Contact Bar (Appears only on Web) -->
+    <div class="hidden md:block bg-opacity-90 bg-[#1C76C2]">
         <div class="container mx-auto px-4 py-2 flex flex-row items-center justify-between">
             <!-- Contact Info -->
             <div class="flex items-center space-x-4 text-sm">
@@ -126,22 +238,22 @@ flex-shrink: 0;
                 <a href="#" class="w-8 h-8 flex items-center justify-center text-white hover:text-[#FFA500] transition duration-300">
                     <i class="ri-youtube-fill"></i>
                 </a>
-                <button class="bg-[#fb8500] text-white px-4 py-1 text-sm rounded-md hover:bg-[#fb8500] transition duration-300">
+                <button class="bg-[#FFA500] text-white px-4 py-1 text-sm rounded-md hover:bg-[#fb8500] transition duration-300">
                     Student Login
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Main Header (Moves Above Contact Info on Mobile) -->
-    <div class="container mx-auto px-4 py-3 mb-0 pb-0 flex flex-col md:flex-row items-center justify-between">
+    <!-- Main Header (Appears on Both Web & Mobile) -->
+    <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between">
         <!-- Logo Section -->
         <a href="#" class="flex items-center gap-3">
-            <img src="logo-1.png" alt="A.S.R. Dhrona School" class="h-16">
+            <img src="logo-1.png" alt="A.S.R. Dhrona School" class="h-14 md:h-16">
             <div class="text-left">
-                <span class="text-[#FFA500] text-lg font-semibold block text-center w-full">Global Vision, Indian Roots</span>
-                <h2 class="text-white text-3xl font-extrabold">A.S.R. Dhrona School</h2>
-                <span class="text-white text-sm font-semibold block text-center">A Future Ready School</span>
+                <span class="text-[#FFA500] text-lg font-semibold block text-center md:text-left">Global Vision, Indian Roots</span>
+                <h2 class="text-white text-2xl md:text-3xl font-extrabold text-center md:text-left">A.S.R. Dhrona School</h2>
+                <span class="text-white text-sm font-semibold block text-center md:text-left">A Future Ready School</span>
             </div>
         </a>
         <!-- Desktop Navigation -->
@@ -153,24 +265,31 @@ flex-shrink: 0;
             <a href="#" class="nav-link text-white hover:text-[#FFA500] transition duration-300">Contact Us</a>
         </nav>
         <!-- Mobile Menu Button -->
-        <button class="lg:hidden w-10 h-10 flex items-center justify-center" id="mobile-menu-button">
+        <button class="lg:hidden w-10 h-10 flex items-center justify-center absolute right-4 top-4" id="mobile-menu-button">
             <i class="ri-menu-line text-2xl text-white"></i>
         </button>
     </div>
 
-    <!-- Contact Bar (Shown in Mobile View Below Logo) -->
-    <div class="bg-opacity-90 bg-[#1C76C2] md:hidden">
-        <div class="container mx-auto px-4 py-2 flex flex-col items-center text-center">
+    <!-- Mobile Contact Bar (Appears only on Mobile Below the Logo) -->
+    <div class="bg-opacity-90 bg-[#1C76C2] md:hidden text-center">
+        <div class="container mx-auto px-4 py-2 flex flex-col items-center space-y-2">
             <!-- Contact Info -->
-            <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 text-sm">
-                <i class="ri-phone-line"></i>
-                <a href="tel:+919493461122" class="hover:text-[#FFA500]">+91 9493-46-1122</a>,
-                <a href="tel:+919493561122" class="hover:text-[#FFA500]">+91 9493-56-1122</a>
-                <i class="ri-mail-line ml-4"></i>
-                <a href="mailto:asrdhrona@gmail.com" class="hover:text-[#FFA500]">asrdhrona@gmail.com</a>
+            <div class="flex flex-col space-y-1 text-sm">
+                <div class="flex items-center justify-center space-x-2">
+                    <i class="ri-phone-line"></i>
+                    <a href="tel:+919493461122" class="hover:text-[#FFA500]">+91 9493-46-1122</a>
+                </div>
+                <div class="flex items-center justify-center space-x-2">
+                    <i class="ri-phone-line"></i>
+                    <a href="tel:+919493561122" class="hover:text-[#FFA500]">+91 9493-56-1122</a>
+                </div>
+                <div class="flex items-center justify-center space-x-2">
+                    <i class="ri-mail-line"></i>
+                    <a href="mailto:asrdhrona@gmail.com" class="hover:text-[#FFA500]">asrdhrona@gmail.com</a>
+                </div>
             </div>
             <!-- Social Links and Student Login -->
-            <div class="flex flex-row items-center space-x-4 mt-2">
+            <div class="flex flex-row items-center justify-center space-x-4 mt-2">
                 <a href="#" class="w-8 h-8 flex items-center justify-center text-white hover:text-[#FFA500] transition duration-300">
                     <i class="ri-facebook-fill"></i>
                 </a>
@@ -198,8 +317,6 @@ flex-shrink: 0;
         </div>
     </div>
 </header>
-
-
 
 
 <!-- Popup Banner -->
@@ -239,226 +356,175 @@ flex-shrink: 0;
 
       
 <main class="pt-[5px]">
-    <section class="relative h-[600px] sm:h-96 md:h-[600px] lg:h-[800px] overflow-hidden">
-        <!-- Carousel -->
-        <div class="absolute inset-0 flex transition-transform duration-500 h-full" id="carousel">
-          <!-- Slide 1 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/students-thumsup.jpg')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Founder's Message</h1>
-                <p class="text-xl mb-8">At DHRONA, we integrate S.M.A.R.T classrooms, Global learning standards, Meditation, and Chess to prepare students for IIT - JEE / NEET and beyond. By harmonizing Traditional wisdom with Modern education and emphasizing Physical Well-being and Health, we aim to leave a lasting impact, ensuring DHRONA stays close to their hearts as they reach great heights in life.</p>
-              </div>
+    <section class="relative w-full h-[500px] md:h-[700px] lg:h-[800px] overflow-hidden">
+        <div class="relative w-full h-full flex transition-transform duration-500 ease-in-out" id="carousel">
+            <!-- Slide 1 -->
+            <div class="carousel-slide absolute w-full h-full">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="img/slide-1-mob.jpg">
+                    <img src="img/slide-1.jpg" alt="Slide 1" class="w-full h-full object-cover">
+                </picture>
             </div>
-          </div>
-      
-          <!-- Slide 2 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/Untitled design.png')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Building Strong Foundations</h1>
-                <p class="text-xl mb-8">A curriculum designed by renowned IIT experts to help students excel in competitive exams.</p>
-              </div>
+    
+            <!-- Slide 2 -->
+            <div class="carousel-slide absolute w-full h-full">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="img/slide-2-mob.jpg">
+                    <img src="img/slide-2.jpg" alt="Slide 2" class="w-full h-full object-cover">
+                </picture>
             </div>
-          </div>
-      
-          <!-- Slide 3 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/Untitled design.png')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Calm Minds, Bright Futures</h1>
-                <p class="text-xl mb-8">Enhancing focus, clarity, and memory through the practice of meditation.</p>
-              </div>
+    
+            <!-- Slide 3 -->
+            <div class="carousel-slide absolute w-full h-full">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="img/slide-3-mob.jpg">
+                    <img src="img/slide-3.jpg" alt="Slide 3" class="w-full h-full object-cover">
+                </picture>
             </div>
-          </div>
-      
-          <!-- Slide 4 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('https://public.readdy.ai/ai/img_res/f7b8f871777ac626b6d50931409d55d1.jpg')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Unleashing Potential</h1>
-                <p class="text-xl mb-8">A unique no-notebook, no-pen environment to sharpen minds and boost memory techniques.</p>
-              </div>
+    
+            <!-- Slide 4 -->
+            <div class="carousel-slide absolute w-full h-full">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="img/slide-4-mob.jpg">
+                    <img src="img/slide-4.jpg" alt="Slide 4" class="w-full h-full object-cover">
+                </picture>
             </div>
-          </div>
-      
-          <!-- Slide 5 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/Untitled design.png')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Mathematics Made Fun</h1>
-                <p class="text-xl mb-8">Encouraging young minds to grasp mathematical concepts in an interactive and engaging way.</p>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Slide 6 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/Untitled design.png')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Light Bags, Big Smiles</h1>
-                <p class="text-xl mb-8">Helping students stay organized and active, ensuring they carry less and enjoy more.</p>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Slide 7 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/Untitled design.png')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Think Strategically, Act Wisely</h1>
-                <p class="text-xl mb-8">Sharpening cognitive skills and fostering family engagement through our cultural game, chess.</p>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Slide 8 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/boy-playing-chess.jpg')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Fit Bodies, Fit Minds</h1>
-                <p class="text-xl mb-8">Promoting physical well-being through sports, ensuring holistic growth and development.</p>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Slide 9 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/Untitled design.png')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Learn Smarter, Not Harder</h1>
-                <p class="text-xl mb-8">Equipped with the latest technology to enhance learning experiences and foster academic excellence.</p>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Slide 10 -->
-          <div class="relative min-w-full h-full bg-cover bg-center" style="background-image: url('img/Untitled design.png')">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
-            <div class="container mx-auto px-4 h-full flex items-center">
-              <div class="relative max-w-2xl text-white">
-                <h1 class="text-5xl font-bold mb-6">Education Without Borders</h1>
-                <p class="text-xl mb-8">Adopting global learning techniques with expert guidance to master English and other skills.</p>
-              </div>
-            </div>
-          </div>
         </div>
-      
-        <!-- Navigation Buttons -->
-        <button class="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/50 transition-all" id="prevBtn">
-          <i class="ri-arrow-left-s-line text-2xl"></i>
+    
+        <!-- Navigation Arrows -->
+        <button class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 p-3 rounded-full text-white" id="prevBtn">
+            <i class="ri-arrow-left-s-line text-2xl"></i>
         </button>
-        <button class="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/50 transition-all" id="nextBtn">
-          <i class="ri-arrow-right-s-line text-2xl"></i>
+        <button class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 p-3 rounded-full text-white" id="nextBtn">
+            <i class="ri-arrow-right-s-line text-2xl"></i>
         </button>
+    
+        <!-- Dots Navigation -->
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2" id="carousel-dots"></div>
+    </section>
+    
+    
       
-        <!-- Dots -->
-        <div class="absolute bottom-6 left-0 right-0 flex justify-center space-x-2">
-          <div class="flex space-x-2" id="carousel-dots"></div>
-        </div>
-      
-        <!-- Slide Number and Title -->
-        <div class="absolute left-4 bottom-6 text-white text-sm bg-black/30 px-4 py-2 rounded-full">
-          <span class="font-medium" id="slide-number">1</span>
-          <span>/</span>
-          <span>10</span>
-        </div>
-        <div class="absolute right-4 bottom-6 text-white text-sm bg-black/30 px-4 py-2 rounded-full" id="slide-title">
-          Main Campus
-        </div>
-      </section>
-      
-</section>
+
 <section class="py-20 bg-gray-50">
-<div class="container mx-auto px-4">
-<h2 class="text-4xl font-bold text-center mb-16">Key Highlights</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-<div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-<i class="ri-graduation-cap-line text-3xl"></i>
-</div>
-<h3 class="text-xl font-semibold text-primary mb-4">IIT-JEE / NEET Toppers Program</h3>
-<p class="text-gray-600">The curriculum is designed by renowned IIT coaching experts to build a strong IIT - JEE foundation</p>
-</div>
+  <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16">Key Highlights</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-  <i class="ri-numbers-line text-3xl"></i>
-  </div>
-  <h3 class="text-xl font-semibold text-primary mb-4">Mathematics Playground</h3>
-  <p class="text-gray-600">Creating a fun and engaging learning experience to ensure that young minds grasp mathematical concepts conceptually while enjoying the process.</p>
-  </div>
+          <!-- IIT-JEE / NEET Toppers Program -->
+          <a href="key-highlights.html" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-graduation-cap-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">IIT-JEE / NEET Toppers Program</h3>
+                  <p class="text-gray-600">The curriculum is designed by renowned IIT coaching experts to build a strong foundation.</p>
+              </div>
+          </a>
 
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-    <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-    <i class="ri-team-line text-3xl"></i>
-    </div>
-    <h3 class="text-xl font-semibold text-primary mb-4">Expert Teachers</h3>
-    <p class="text-gray-600">Providing transparency and accountability at DHRONA, while fostering a strong Parent-Teacher bond for better student growth and collaboration.</p>
-    </div>
+          <!-- Mathematics Playground -->
+          <a href="features.html#mathematics-playground" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-numbers-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Mathematics Playground</h3>
+                  <p class="text-gray-600">Creating a fun and engaging learning experience for young minds.</p>
+              </div>
+          </a>
 
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-<div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-<i class="ri-mental-health-line text-3xl"></i>
-</div>
-<h3 class="text-xl font-semibold text-primary mb-4">Memory Boost Meditation (MBM)</h3>
-<p class="text-gray-600">The Practice of Meditation is the great scientific method of knowledge</p>
-</div>
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-<div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-<i class="ri-brain-line text-3xl"></i>
-</div>
-<h3 class="text-xl font-semibold text-primary mb-4">Genius Gym & Formula Room</h3>
-<p class="text-gray-600">Enhancing memory-boosting techniques through No Notebook - No Pen rooms to unlock the full potential of human capabilities, while fostering a calm and focused mind for success in competitive exams like IIT-JEE / NEET.</p>
-</div>
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-  <i class="ri-global-line text-3xl"></i>
-  </div>
-  <h3 class="text-xl font-semibold text-primary mb-4">Global Support</h3>
-  <p class="text-gray-600">Founded by NRIs and experienced IIT teaching professionals, DHRONA is committed to helping every student achieve English mastery. We enhance language proficiency by adopting global teaching methods and collaborating with English professionals from the UK, ensuring world-class learning standards</p>
-  </div>
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-<div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-<i class="ri-heart-pulse-line text-3xl"></i>
-</div>
-<h3 class="text-xl font-semibold text-primary mb-4">Student Health Cards</h3>
-<p class="text-gray-600">Regularly tracking students' physical growth and well-being while educating them on the importance of healthy habits, nutrition, and cleanliness.</p>
-</div>
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-<div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-<i class="ri-lock-2-line text-3xl"></i>
-</div>
-<h3 class="text-xl font-semibold text-primary mb-4">Student Lockers</h3>
-<p class="text-gray-600">Keeping school bags light so children can enjoy with friends and focus on learning. Lockers help them stay organized, responsible, and active, ensuring they get tired from playing, not from carrying heavy bags.</p>
-</div>
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-<div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-<i class="ri-gamepad-line text-3xl"></i>
-</div>
-<h3 class="text-xl font-semibold text-primary mb-4">Chess Program</h3>
-<p class="text-gray-600">Chess, a game rooted in our culture, is a subject at DHRONA( DHRONA CHESSMATERS PROGRAM ) , designed to sharpen students' thinking skills. We encourage students to play with their parents, fostering a healthy and engaging family environment.</p>
-</div>
+          <!-- Expert Teachers -->
+          <a href="features.html#expert-teachers" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-team-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Expert Teachers</h3>
+                  <p class="text-gray-600">Providing transparency and accountability while fostering strong Parent-Teacher bonds.</p>
+              </div>
+          </a>
 
-<div class="feature-card bg-white p-8 rounded-lg shadow-sm">
-  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
-  <i class="ri-basketball-line text-3xl"></i>
+          <!-- Memory Boost Meditation -->
+          <a href="features.html#memory-boost-meditation" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-mental-health-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Memory Boost Meditation (MBM)</h3>
+                  <p class="text-gray-600">Meditation is a scientifically proven method for knowledge and focus.</p>
+              </div>
+          </a>
+
+          <!-- Genius Gym & Formula Room -->
+          <a href="features.html#genius-gym" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-brain-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Genius Gym & Formula Room</h3>
+                  <p class="text-gray-600">Enhancing memory-boosting techniques through innovative methods.</p>
+              </div>
+          </a>
+
+          <!-- Global Support -->
+          <a href="features.html#global-support" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-global-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Global Support</h3>
+                  <p class="text-gray-600">Founded by NRIs and IIT experts, committed to world-class learning.</p>
+              </div>
+          </a>
+
+          <!-- Student Health Cards -->
+          <a href="features.html#student-health-cards" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-heart-pulse-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Student Health Cards</h3>
+                  <p class="text-gray-600">Tracking physical growth and promoting healthy habits.</p>
+              </div>
+          </a>
+
+          <!-- Student Lockers -->
+          <a href="features.html#student-lockers" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-lock-2-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Student Lockers</h3>
+                  <p class="text-gray-600">Keeping school bags light and students focused on learning.</p>
+              </div>
+          </a>
+
+          <!-- Chess Program -->
+          <a href="features.html#chess-program" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-gamepad-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Chess Program</h3>
+                  <p class="text-gray-600">Developing strategic thinking through chess education.</p>
+              </div>
+          </a>
+
+          <!-- Sports Excellence -->
+          <a href="features.html#sports-excellence" class="feature-card">
+              <div class="bg-white p-8 rounded-lg shadow-sm transition-transform duration-300 transform hover:-translate-y-3 hover:shadow-lg hover:scale-105 cursor-pointer">
+                  <div class="w-16 h-16 mb-6 text-secondary flex items-center justify-center">
+                      <i class="ri-basketball-line text-3xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-primary mb-4">Sports Excellence</h3>
+                  <p class="text-gray-600">Balancing academics with physical fitness and sports.</p>
+              </div>
+          </a>
+
+      </div>
   </div>
-  <h3 class="text-xl font-semibold text-primary mb-4">Sports Excellence</h3>
-  <p class="text-gray-600">At DHRONA, along with Chess and Meditation, we actively promote physical sports to ensure a well-balanced and healthy growth for every student.</p>
-  </div>
-</div>
-</div>
 </section>
+
 <section class="py-20">
 <div class="container mx-auto px-4">
 <div class="flex flex-col lg:flex-row items-center gap-12">
@@ -644,86 +710,71 @@ Start Application
   </div>
 </footer>
 
-<div class="modal" id="gallery-modal">
+ <div class="modal" id="gallery-modal">
 <div class="modal-content">
 <img src="" alt="" class="modal-image">
 <button class="modal-close">×</button>
 </div>
 </div>
 
-    <script>
-const carousel = document.getElementById('carousel');
-const carouselDots = document.getElementById('carousel-dots');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-let currentSlide = 0;
-const totalSlides = 10;
-// Create dots
-for (let i = 0; i < totalSlides; i++) {
-const dot = document.createElement('button');
-dot.className = `w-2 h-2 rounded-full ${i === 0 ? 'bg-white' : 'bg-white/50'}`;
-dot.addEventListener('click', () => goToSlide(i));
-carouselDots.appendChild(dot);
-}
-const slideTitles = [
-"Main Campus",
-"Science Laboratory",
-"Sports Complex",
-"Digital Library",
-"Art & Music Center",
-"Meditation Center",
-"Innovation Hub",
-"Green Campus",
-"Auditorium",
-"Cultural Exchange"
-];
-function updateDots() {
-const dots = carouselDots.children;
-for (let i = 0; i < dots.length; i++) {
-dots[i].className = `w-2 h-2 rounded-full ${i === currentSlide ? 'bg-white' : 'bg-white/50'}`;
-}
-document.getElementById('slide-number').textContent = currentSlide + 1;
-document.getElementById('slide-title').textContent = slideTitles[currentSlide];
-}
-function goToSlide(index) {
-currentSlide = index;
-carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-updateDots();
-}
-function nextSlide() {
-currentSlide = (currentSlide + 1) % totalSlides;
-goToSlide(currentSlide);
-}
-function prevSlide() {
-currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-goToSlide(currentSlide);
-}
-prevBtn.addEventListener('click', prevSlide);
-nextBtn.addEventListener('click', nextSlide);
-// Auto slide
-setInterval(nextSlide, 5000);
-document.getElementById('mobile-menu-button').addEventListener('click', function() {
-document.getElementById('mobile-menu').classList.toggle('hidden');
+   <script>
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const slides = document.querySelectorAll(".carousel-slide");
+    const dotsContainer = document.getElementById("carousel-dots");
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+
+    // Create dots dynamically
+    slides.forEach((_, index) => {
+        const dot = document.createElement("div");
+        dot.classList.add("carousel-dot");
+        if (index === 0) dot.classList.add("active"); // First dot is active
+        dot.addEventListener("click", () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll(".carousel-dot");
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.transform = `translateX(${(i - index) * 100}%)`;
+        });
+
+        dots.forEach(dot => dot.classList.remove("active"));
+        dots[index].classList.add("active");
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        showSlide(currentIndex);
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        showSlide(currentIndex);
+    }
+
+    // Auto slide every 5 seconds
+    setInterval(nextSlide, 5000);
+
+    // Button event listeners
+    document.getElementById("prevBtn").addEventListener("click", prevSlide);
+    document.getElementById("nextBtn").addEventListener("click", nextSlide);
+
+    // Initialize first slide
+    showSlide(currentIndex);
 });
-const galleryItems = document.querySelectorAll('.gallery-item');
-const modal = document.getElementById('gallery-modal');
-const modalImage = modal.querySelector('.modal-image');
-const modalClose = modal.querySelector('.modal-close');
-galleryItems.forEach(item => {
-item.addEventListener('click', () => {
-const imgSrc = item.querySelector('img').src;
-modalImage.src = imgSrc;
-modal.style.display = 'flex';
-});
-});
-modalClose.addEventListener('click', () => {
-modal.style.display = 'none';
-});
-window.addEventListener('click', (e) => {
-if (e.target === modal) {
-modal.style.display = 'none';
-}
-});
+
+
+
+
 const testimonials = [
 {
 image: "https://public.readdy.ai/ai/img_res/948287b4c4db85734c413d4dd1360973.jpg",
