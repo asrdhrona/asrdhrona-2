@@ -12,6 +12,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+
+
+
 <script>
 tailwind.config = {
 theme: {
@@ -38,119 +41,181 @@ DEFAULT: '8px',
 </script>
 <style>
 
-/* Ensure the carousel container is always full height */
-#carousel {
-    display: flex;
-    width: 100%;
-    height: 100vh; /* Full height on desktop */
-    max-height: 800px; /* Prevent extreme stretching */
-    position: relative;
-    overflow: hidden;
-}
-
-/* Individual slide setup */
-.carousel-slide {
-    width: 100%;
-    height: 100%;
-    flex: 0 0 100%;
-    position: absolute;
-    transition: transform 0.5s ease-in-out;
-}
-
-/* Ensure images fill the screen correctly */
-.carousel-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Navigation Arrows */
-.carousel-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.carousel-arrow:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-#prevBtn {
-    left: 15px;
-}
-
-#nextBtn {
-    right: 15px;
-}
-
-/* Dots navigation */
-.carousel-dots {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-}
-
-.carousel-dot {
-    width: 12px;
-    height: 12px;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.carousel-dot.active {
-    background-color: white;
-    transform: scale(1.2);
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-    #carousel {
-        height: 80vh; /* Reduce height for tablets */
-    }
-}
-
-@media (max-width: 768px) {
-    #carousel {
-        height: auto;
-        min-height: 400px; /* Ensure no extra space */
+#myCarousel {
+      width: 100%;
+      height: auto;
+      min-height: 50vh;
+      max-height: 100vh;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
     }
 
-    .carousel-slide {
-        height: 400px;
+    #slides-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
     }
 
-    .carousel-slide img {
+    .carousel-item {
+      flex: 0 0 100%;
+      width: 100%;
+      height: auto;
+      min-height: 50vh;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 50vh;
+    }
+
+    /* Navigation Buttons */
+    #prev-btn, #next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      padding: 8px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    #prev-btn {
+      left: 10px;
+    }
+
+    #next-btn {
+      right: 10px;
+    }
+
+    /* Indicators */
+    #indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    #indicators button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0.5;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    #indicators button.active {
+      opacity: 1;
+      background: #007bff;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      #myCarousel {
+        min-height: 40vh;
+      }
+
+      #slides-wrapper {
+        display: flex;
+      }
+
+      .carousel-item {
+        flex: 0 0 100%;
+        min-height: 40vh;
+      }
+
+      .carousel-item img {
+        min-height: 40vh;
         object-fit: contain;
+      }
+
+      #prev-btn, #next-btn {
+        padding: 6px;
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+      }
+
+      #prev-btn {
+        left: 5px;
+      }
+
+      #next-btn {
+        right: 5px;
+      }
+
+      #indicators {
+        bottom: 10px;
+      }
+
+      #indicators button {
+        width: 8px;
+        height: 8px;
+      }
     }
 
-    .carousel-arrow {
+    @media (max-width: 480px) {
+      #myCarousel {
+        min-height: 30vh;
+      }
+
+      #slides-wrapper {
+        display: flex;
+      }
+
+      .carousel-item {
+        flex: 0 0 100%;
+        min-height: 30vh;
+      }
+
+      .carousel-item img {
+        min-height: 30vh;
+        object-fit: contain;
+      }
+
+      #prev-btn, #next-btn {
+        padding: 4px;
         width: 30px;
         height: 30px;
+        font-size: 12px;
+      }
+
+      #prev-btn {
+        left: 5px;
+      }
+
+      #next-btn {
+        right: 5px;
+      }
+
+      #indicators {
+        bottom: 5px;
+        gap: 8px;
+      }
     }
 
-    .carousel-dot {
-        width: 10px;
-        height: 10px;
+    section {
+      margin: 0;
+      padding: 0;
     }
-}
-
-
-
-
 :where([class^="ri-"])::before { content: "\f3c2"; }
 body {
 font-family: 'Open Sans', sans-serif;
@@ -356,55 +421,61 @@ flex-shrink: 0; */
 
       
 <main class="pt-[5px]">
-    <section class="relative w-full h-[500px] md:h-[700px] lg:h-[800px] overflow-hidden">
-        <div class="relative w-full h-full flex transition-transform duration-500 ease-in-out" id="carousel">
-            <!-- Slide 1 -->
-            <div class="carousel-slide absolute w-full h-full">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/slide-1-mob.jpg">
-                    <img src="img/slide-1.jpg" alt="Slide 1" class="w-full h-full object-cover">
-                </picture>
+    <section class="w-full">
+        <div class="relative w-full overflow-hidden" id="myCarousel">
+          <!-- Slides Wrapper -->
+          <div class="flex transition-transform duration-500 ease-in-out" id="slides-wrapper">
+            <div class="flex-none w-full">
+              <div class="carousel-item h-full">
+                <img src="img/slide-1.jpg" alt="Slide 1" class="w-full h-full object-cover">
+              </div>
             </div>
+            <div class="flex-none w-full">
+              <div class="carousel-item h-full">
+                <img src="img/slide-2.jpg" alt="Slide 2" class="w-full h-full object-cover">
+              </div>
+            </div>
+            <div class="flex-none w-full">
+              <div class="carousel-item h-full">
+                <img src="img/slide-3.jpg" alt="Slide 3" class="w-full h-full object-cover">
+              </div>
+            </div>
+            <div class="flex-none w-full">
+              <div class="carousel-item h-full">
+                <img src="img/slide-4.png" alt="Slide 4" class="w-full h-full object-cover">
+              </div>
+            </div>
+            <div class="flex-none w-full">
+              <div class="carousel-item h-full">
+                <img src="img/slide-5.jpg" alt="Slide 5" class="w-full h-full object-cover">
+              </div>
+            </div>
+            <div class="flex-none w-full">
+              <div class="carousel-item h-full">
+                <img src="img/slide-6.jpg" alt="Slide 6" class="w-full h-full object-cover">
+              </div>
+            </div>
+          </div>
     
-            <!-- Slide 2 -->
-            <div class="carousel-slide absolute w-full h-full">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/slide-2-mob.jpg">
-                    <img src="img/slide-2.jpg" alt="Slide 2" class="w-full h-full object-cover">
-                </picture>
-            </div>
+          <!-- Navigation Buttons -->
+          <button class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md" id="prev-btn" aria-label="Previous slide">
+            ❮ <!-- Left Arrow -->
+          </button>
+          <button class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md" id="next-btn" aria-label="Next slide">
+            ❯ <!-- Right Arrow -->
+          </button>
     
-            <!-- Slide 3 -->
-            <div class="carousel-slide absolute w-full h-full">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/slide-3-mob.jpg">
-                    <img src="img/slide-3.jpg" alt="Slide 3" class="w-full h-full object-cover">
-                </picture>
-            </div>
-    
-            <!-- Slide 4 -->
-            <div class="carousel-slide absolute w-full h-full">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/slide-4-mob.jpg">
-                    <img src="img/slide-4.jpg" alt="Slide 4" class="w-full h-full object-cover">
-                </picture>
-            </div>
+          <!-- Indicators -->
+          <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2" id="indicators" role="tablist">
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" data-index="0" aria-label="Slide 1"></button>
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" data-index="1" aria-label="Slide 2"></button>
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" data-index="2" aria-label="Slide 3"></button>
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" data-index="3" aria-label="Slide 4"></button>
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" data-index="4" aria-label="Slide 5"></button>
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" data-index="5" aria-label="Slide 6"></button>
+          </div>
         </div>
-    
-        <!-- Navigation Arrows -->
-        <button class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 p-3 rounded-full text-white" id="prevBtn">
-            <i class="ri-arrow-left-s-line text-2xl"></i>
-        </button>
-        <button class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 p-3 rounded-full text-white" id="nextBtn">
-            <i class="ri-arrow-right-s-line text-2xl"></i>
-        </button>
-    
-        <!-- Dots Navigation -->
-        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2" id="carousel-dots"></div>
-    </section>
-    
-    
-      
+      </section>
 
 <section class="py-20 bg-gray-50">
   <div class="container mx-auto px-4">
@@ -655,7 +726,7 @@ Start Application
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
       <div class="flex items-center space-x-4">
-        <img src="logo-1.png" alt="A.S.R. Dhrona School" class="h-16 mb-6">
+        <img src="favicon.png" alt="A.S.R. Dhrona School" class="h-16 mb-6">
         <h2 class="text-xl font-bold">ASR DHRONA SCHOOL</h2>
       </div>
       <div>
@@ -719,62 +790,62 @@ Start Application
 
    <script>
 
+document.addEventListener('DOMContentLoaded', function() {
+      const slidesWrapper = document.getElementById('slides-wrapper');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const indicators = document.querySelectorAll('#indicators button');
+      const totalSlides = indicators.length;
+      let currentIndex = 0;
+      let autoSlideInterval;
 
-document.addEventListener("DOMContentLoaded", function () {
-    const slides = document.querySelectorAll(".carousel-slide");
-    const dotsContainer = document.getElementById("carousel-dots");
-    const totalSlides = slides.length;
-    let currentIndex = 0;
-
-    // Create dots dynamically
-    slides.forEach((_, index) => {
-        const dot = document.createElement("div");
-        dot.classList.add("carousel-dot");
-        if (index === 0) dot.classList.add("active"); // First dot is active
-        dot.addEventListener("click", () => goToSlide(index));
-        dotsContainer.appendChild(dot);
-    });
-
-    const dots = document.querySelectorAll(".carousel-dot");
-
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.style.transform = `translateX(${(i - index) * 100}%)`;
+      function updateCarousel() {
+        slidesWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+        indicators.forEach(indicator => {
+          indicator.classList.remove('bg-primary', 'opacity-100', 'active');
+          indicator.classList.add('bg-white', 'opacity-50');
         });
+        indicators[currentIndex].classList.remove('bg-white', 'opacity-50');
+        indicators[currentIndex].classList.add('bg-primary', 'opacity-100', 'active');
+      }
 
-        dots.forEach(dot => dot.classList.remove("active"));
-        dots[index].classList.add("active");
-    }
+      function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+          currentIndex = (currentIndex + 1) % totalSlides;
+          updateCarousel();
+        }, 5000);
+      }
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        showSlide(currentIndex);
-    }
+      function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+      }
 
-    function prevSlide() {
+      prevBtn.addEventListener('click', () => {
+        stopAutoSlide();
         currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-        showSlide(currentIndex);
-    }
+        updateCarousel();
+        startAutoSlide();
+      });
 
-    function goToSlide(index) {
-        currentIndex = index;
-        showSlide(currentIndex);
-    }
+      nextBtn.addEventListener('click', () => {
+        stopAutoSlide();
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateCarousel();
+        startAutoSlide();
+      });
 
-    // Auto slide every 5 seconds
-    setInterval(nextSlide, 5000);
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          stopAutoSlide();
+          currentIndex = index;
+          updateCarousel();
+          startAutoSlide();
+        });
+      });
 
-    // Button event listeners
-    document.getElementById("prevBtn").addEventListener("click", prevSlide);
-    document.getElementById("nextBtn").addEventListener("click", nextSlide);
-
-    // Initialize first slide
-    showSlide(currentIndex);
-});
-
-
-
-
+      updateCarousel();
+      startAutoSlide();
+    });
 const testimonials = [
 {
 image: "https://public.readdy.ai/ai/img_res/948287b4c4db85734c413d4dd1360973.jpg",
